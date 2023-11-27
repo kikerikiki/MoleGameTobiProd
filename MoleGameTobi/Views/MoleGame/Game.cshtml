@@ -1,0 +1,464 @@
+﻿@model MoleGameTobi.Models.MoleGame
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link rel="stylesheet" href="~/css/site.css">
+<div class="grid-container">
+    <div class="grid-item">
+        <div class="score-bar">
+            <div id="score">Score: 0</div>
+        </div>
+    </div>
+    <div class="grid-item">
+        <div class="hearts">
+            <div class="heart-bar">
+                <img id="heart1" class="heart" src="~/img/haseherz.png" alt="Heart Image">
+                <img id="heart2" class="heart" src="~/img/haseherz.png" alt="Heart Image">
+                <img id="heart3" class="heart" src="~/img/haseherz.png" alt="Heart Image">
+            </div>
+        </div>
+    </div>
+    <div class="grid-item">
+        <div class="timer-bar">
+            <div id="timer">00:00</div>
+        </div>
+    </div>
+
+</div>
+
+<div class="trophies">
+    <ul id="trophyList">
+    </ul>
+</div>
+
+
+<body>
+
+@*     <div class="cloud"> </div>
+    <div class="cloud cloud-fast"><img src="~/img/Wolken.png" alt="Wolke Image" width="200px" height="100px" /></div>    WIP
+    <div class="cloud cloud-slow"><img src="~/img/Wolken.png" alt="Wolke Image" width="200px" height="100px" /></div> *@
+
+    <div class="game-board">
+
+        <div class="mole-hole" id="hole1">
+            <img src="~/img/mole-hole.png" alt="Hole Image">
+            <div class="hole-container">
+                <img class="hammer-image" src="~/img/hammer.png" alt="Hammer Image" style="display: none;">
+                <div class="mole-image" onclick="hitMole(this)">
+                </div>
+            </div>
+        </div>
+
+        <div class="mole-hole" id="hole2">
+            <img src="~/img/mole-hole.png" alt="Hole Image">
+            <div class="hole-container">
+                <img class="hammer-image" src="~/img/hammer.png" alt="Hammer Image" style="display: none;">
+                <div class="mole-image" onclick="hitMole(this)">
+                </div>
+            </div>
+        </div>
+
+        <div class="mole-hole" id="hole3">
+            <img src="~/img/mole-hole.png" alt="Hole Image">
+            <div class="hole-container">
+                <img class="hammer-image" src="~/img/hammer.png" alt="Hammer Image" style="display: none;">
+                <div class="mole-image" onclick="hitMole(this)">
+                </div>
+            </div>
+        </div>
+
+        <div class="mole-hole" id="hole4">
+            <img src="~/img/mole-hole.png" alt="Hole Image">
+            <div class="hole-container">
+                <img class="hammer-image" src="~/img/hammer.png" alt="Hammer Image" style="display: none;">
+                <div class="mole-image" onclick="hitMole(this)">
+                </div>
+            </div>
+        </div>
+        <div id="countdown" class="countdown">
+            3
+        </div>
+        <div class="mole-hole" id="hole5">
+            <img src="~/img/mole-hole.png" alt="Hole Image">
+            <div class="hole-container">
+                <img class="hammer-image" src="~/img/hammer.png" alt="Hammer Image" style="display: none;">
+                <div class="mole-image" onclick="hitMole(this)">
+                </div>
+            </div>
+        </div>
+
+        <div class="mole-hole" id="hole6">
+            <img src="~/img/mole-hole.png" alt="Hole Image">
+            <div class="hole-container">
+                <img class="hammer-image" src="~/img/hammer.png" alt="Hammer Image" style="display: none;">
+                <div class="mole-image" onclick="hitMole(this)">
+                </div>
+            </div>
+        </div>
+
+        <div class="mole-hole" id="hole7">
+            <img src="~/img/mole-hole.png" alt="Hole Image">
+            <div class="hole-container">
+                <img class="hammer-image" src="~/img/hammer.png" alt="Hammer Image" style="display: none;">
+                <div class="mole-image" onclick="hitMole(this)">
+                </div>
+            </div>
+        </div>
+
+        <div class="mole-hole" id="hole8">
+            <img src="~/img/mole-hole.png" alt="Hole Image">
+            <div class="hole-container">
+                <img class="hammer-image" src="~/img/hammer.png" alt="Hammer Image" style="display: none;">
+                <div class="mole-image" onclick="hitMole(this)">
+                </div>
+            </div>
+        </div>
+
+        <div id="gameOver" style="display: none; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.75);">
+            <div class="game-over-box">
+                <h1>Game Over</h1>
+                <p>Du warst langsamer als der Kiffer tzz</p>
+                <p id="finalScore">Score: 0</p>
+                <p id="finalTime">Zeit: 00:00</p>
+                <button id="backToLobby">Zurück zur Lobby</button>
+
+                <div class="collected-trophies">
+                    <h2>Gesammelte Trophäen:</h2>
+                    <div id="collectedTrophiesList">
+                        <!-- Trophäenbilder -->
+                    </div>
+                </div>
+
+                <div id="trophyDescriptionPopup" style="display: none;">
+                    <span id="closePopup" style="cursor: pointer; position: absolute; top: 10px; right: 10px;">&times;</span>
+                    <h3 id="trophyName"></h3>
+                    <p id="trophyDescriptionText"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var score = 0;
+        var moleTimer;
+        const holes = document.querySelectorAll('.mole-hole');
+
+        const trophyList = document.getElementById('trophyList');
+        const trophies = [
+            {
+                score: 500,
+                name: 'Kikis Skateboard',
+                image: '../../img/skateTrophy.png',
+                earned: false,
+                description: 'Meisterhaft gefertigt aus dem Holz alter Mythen.'
+            },
+            {
+                score: 1000,
+                name: 'Rayans Jibbo',
+                image: '../../img/cartoonJ.png',
+                earned: false,
+                description: 'Gewoben aus den seltensten Kräutern der Welt, ist ein Symbol epischer Abenteuer und grenzenloser Möglichkeiten - wow, der ist schon echt fett...'
+            },
+            {
+                score: 1500,
+                name: 'Nanas Bleistift',
+                image: '../../img/stiftTrophy.png',
+                earned: false,
+                description: 'Mehr als nur ein einfaches Schreibwerkzeug, ist ein Talisman der Kreativität, der die Grenzen der Vorstellungskraft sprengt und Geschichten zum Leben erweckt, die das Herz berühren.'
+            },
+            {
+                score: 2000,
+                name: 'Soave',
+                image: '../../img/weinTrophy.png',
+                earned: false,
+                description: 'Für gerade zwei Euro entfaltet diese Weinflasche eine epische Ode an die Kunst des Winzerhandwerks, ein Tropfen, der mit jedem Schluck die reiche Erde und das unermüdliche Streben nach Vollkommenheit, das in den Weinreben verwurzelt ist, heraufbeschwört.'
+            },
+            {
+                score: 2500,
+                name: 'Rayans Scooter',
+                image: '../../img/RollerTrophy.png',
+                earned: false,
+                description: 'In den Gassen der Stadt huscht Rayans E- Roller vorbei, ein ratternder Gefährte auf zwei Rädern, der jede Fahrt in ein kleines, wildes Abenteuer verwandelt. Pass auf das die Popos dich nicht erwischen.'
+            },
+            {
+                score: 3000,
+                name: 'Salvas Mischpult',
+                image: '../../img/mischpultTrophy.png',
+                earned: false,
+                description: 'Inmitten eines Meeres aus pulsierenden Lichtern und ekstatischen Rhythmen stand Salvas Mischpult, dessen Regler und Knöpfe die Geschichten unzähliger Nächte erzählten, in denen es als Herzstück epischer Raves die Menge in kollektive Euphorie versetzte.'
+            },
+            {
+                score: 3500,
+                name: 'Daves Kappe',
+                image: '../../img/KappeTrophy.png',
+                earned: false,
+                description: 'In den Schatten der Großstadt, wo das Mondlicht flüstert, thront die schwarze Katzenkappe als stilles Symbol der nächtlichen Eleganz, getragen von jenen, die das Mysterium und die Anmut der Katzen in den pulsierenden Straßen verkörpern.'
+            }
+        ];
+
+       
+
+        function getRandomHole(holes) {
+            const idx = Math.floor(Math.random() * holes.length);
+            return holes[idx];
+        }
+
+        function addTrophyToCenterOfScreen(trophy) {
+            const trophyImage = document.createElement('img');
+            trophyImage.src = trophy.image;
+            trophyImage.alt = "Trophy Image";
+            trophyImage.style.position = 'fixed';
+            trophyImage.style.top = '50%';
+            trophyImage.style.left = '50%';
+            trophyImage.style.transform = 'translate(-50%, -50%) scale(0.5)'; 
+            trophyImage.style.zIndex = '1000';
+            document.body.appendChild(trophyImage);
+
+            const trophyList = document.getElementById('trophyList');
+            const trophyListRect = trophyList.getBoundingClientRect();
+
+            trophyImage.style.setProperty('--trophy-top', `${trophyListRect.top - 300}px`); //  höher
+            trophyImage.style.setProperty('--trophy-left', `${trophyListRect.left + 50}px`); //  rechts
+
+            setTimeout(() => {
+                trophyImage.classList.add('flyingTrophy');
+                trophyImage.addEventListener('animationend', () => {
+                    trophyList.appendChild(trophyImage);
+                    trophyImage.classList.remove('flyingTrophy');
+                    trophyImage.style.position = '';
+                    trophyImage.style.top = '';
+                    trophyImage.style.left = '';
+                    trophyImage.style.transform = '';
+                    trophyImage.style.zIndex = '';
+                    trophyImage.style.width = '50px';
+                    trophyImage.style.height = 'auto';
+                });
+            }, 100);
+        }
+
+        function checkAndDisplayTrophies() {
+            for (const trophy of trophies) {
+                if (score >= trophy.score && !trophy.earned) {
+                    addTrophyToCenterOfScreen(trophy);
+                    trophy.earned = true; // Markiere die Trophäe als verdient
+                }
+            }
+        }
+
+        document.querySelectorAll('.mole-image').forEach(moleImageDiv => {
+            moleImageDiv.addEventListener("animationend", function (event) {
+                if (event.animationName === "slideDown") {
+                    this.style.display = "none"; 
+                    if (!this.wasHit) {
+                        loseLife();
+                    }
+                    this.wasHit = false; 
+                    this.closest('.mole-hole').classList.remove('active');
+                }
+            });
+        });
+
+        function showCollectedTrophies() {
+            const collectedTrophiesList = document.getElementById('collectedTrophiesList');
+            collectedTrophiesList.innerHTML = ''; // Liste leeren
+
+            trophies.forEach(trophy => {
+                if (trophy.earned) {
+                    const trophyImage = document.createElement('img');
+                    trophyImage.src = trophy.image;
+                    trophyImage.alt = trophy.name;
+                    trophyImage.style.cursor = 'pointer';
+                    trophyImage.onclick = function () {
+                        showTrophyDescriptionPopup(trophy.name, trophy.description);
+                    };
+                    collectedTrophiesList.appendChild(trophyImage);
+                }
+            });
+        }
+
+        function showTrophyDescriptionPopup(name, description) {
+            const popup = document.getElementById('trophyDescriptionPopup');
+            document.getElementById('trophyName').textContent = name;
+            document.getElementById('trophyDescriptionText').textContent = description;
+            popup.style.display = 'block';
+        }
+
+        function closeTrophyDescriptionPopup() {
+            document.getElementById('trophyDescriptionPopup').style.display = 'none';
+        }
+
+
+        function hitMole(moleImageDiv) {
+            if (!moleImageDiv.classList.contains('hit')) {
+                moleImageDiv.classList.add('hit');
+                moleImageDiv.wasHit = true;
+
+                const moleImg = moleImageDiv.querySelector('img');
+                if (moleImg) {
+                    moleImg.src = '/img/angry_tobi.png';
+                }
+
+                score += 50;
+                document.getElementById("score").textContent = "Score: " + score;
+
+                checkAndDisplayTrophies();
+
+                const hammerImg = moleImageDiv.parentElement.querySelector('.hammer-image');
+                hammerImg.style.display = 'block';
+                hammerImg.style.animation = 'hammerHit 0.5s forwards';
+
+                setTimeout(() => {
+                    hammerImg.style.display = 'none';
+                }, 500); 
+
+                moleImageDiv.style.animation = 'none';
+                setTimeout(() => {
+                    moleImageDiv.style.animation = 'slideDown 1s forwards';
+                });
+            }
+        }
+
+        let lives = 3; 
+        let moleAppearanceInterval = 2000;
+
+        function loseLife() {
+            if (lives > 0) {
+                const heartElement = document.getElementById(`heart${lives}`);
+                if (heartElement) {
+                    heartElement.style.display = 'none'; 
+                    lives--;
+
+                    if (lives === 0) {
+                        gameOver(); 
+                    }
+                }
+            }
+        }
+
+        function resetAndStartAnimation(moleImageDiv, animationName, duration) {
+            moleImageDiv.style.animation = 'none';
+            moleImageDiv.offsetHeight; 
+
+            moleImageDiv.style.animation = `${animationName} ${duration} forwards`;
+        }
+
+
+        function appearRandomMole() {
+            const hole = getRandomHole(holes);
+            if (!hole.classList.contains('active') && document.getElementById('gameOver').style.display !== 'block') {
+                hole.classList.add('active');
+
+                const moleImageDiv = hole.querySelector('.mole-image');
+                moleImageDiv.style.display = "block";
+                moleImageDiv.wasHit = false; 
+                moleImageDiv.classList.remove('hit'); 
+
+                let moleImg = moleImageDiv.querySelector('img');
+                if (!moleImg) {
+                    moleImg = document.createElement('img');
+                    moleImg.alt = 'Mole Image';
+                    moleImg.height = 200;
+                    moleImg.width = 200;
+                    moleImageDiv.appendChild(moleImg);
+                }
+                moleImg.src = '/img/happy_tobi.png';
+
+                moleImageDiv.onclick = function () {
+                    hitMole(this);
+                };
+
+                resetAndStartAnimation(moleImageDiv, 'slideUp', '0.5s');
+
+                const time = Math.random() * 1000 + 1000;
+                setTimeout(() => {
+                    if (!moleImageDiv.wasHit) {
+                        resetAndStartAnimation(moleImageDiv, 'slideDown', '1s');
+                    }
+                }, time);
+
+                if (score >= 250) {
+ 
+                    moleAppearanceInterval = 1500; 
+                }
+
+                setTimeout(appearRandomMole, moleAppearanceInterval);
+            }
+        }
+
+        // Countdown
+        document.addEventListener("DOMContentLoaded", function () {
+            const countdownElement = document.getElementById("countdown");
+            let count = 3;
+
+            function startCountdown() {
+                countdownElement.textContent = count;
+                count--;
+
+                if (count >= 0) {
+                    setTimeout(startCountdown, 1000);
+                } else {
+                    countdownElement.style.display = "none";
+                    startGame();
+                }
+            }
+
+            startCountdown();
+        });
+
+        // Starten des Spiels
+        function startGame() {
+            score = 0;
+            document.getElementById("score").textContent = "Score: " + score;
+            moleTimer = setInterval(appearRandomMole, 2000);
+            startTimer()
+        }
+
+        // Timer
+        let startTime = null;
+        let timerInterval = null;
+
+        function formatTime(seconds) {
+            const minutes = Math.floor(seconds / 60);
+            const remainingSeconds = seconds % 60;
+            const formattedMinutes = String(minutes).padStart(2, '0');
+            const formattedSeconds = String(remainingSeconds).padStart(2, '0');
+            return `${formattedMinutes}:${formattedSeconds}`;
+        }
+
+        function startTimer() {
+            startTime = new Date().getTime();
+
+            timerInterval = setInterval(updateTimer, 1000);
+        }
+
+        function updateTimer() {
+            const timerElement = document.getElementById("timer");
+            const currentTime = new Date().getTime();
+            const elapsedTimeInSeconds = Math.floor((currentTime - startTime) / 1000);
+            timerElement.textContent = formatTime(elapsedTimeInSeconds);
+        }
+
+        function gameOver() {
+            const gameOverBox = document.getElementById('gameOver');
+            const finalScore = document.getElementById('finalScore');
+            const finalTime = document.getElementById('finalTime');
+            showCollectedTrophies();
+            const backToLobbyButton = document.getElementById('backToLobby');
+
+            finalScore.textContent = 'Score: ' + score;
+            finalTime.textContent = 'Zeit: ' + document.getElementById('timer').textContent;
+            gameOverBox.style.display = 'block';
+
+
+
+            backToLobbyButton.addEventListener('click', () => {
+                window.location.href = 'https://localhost:7102/';
+            });
+            
+        }
+
+        document.getElementById('closePopup').addEventListener('click', function () {
+            document.getElementById('trophyDescriptionPopup').style.display = 'none';
+        });
+    </script>
+</body>

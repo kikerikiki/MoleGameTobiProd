@@ -1,0 +1,131 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="~/css/Index.css">
+    <title>Tobi Spiel</title>
+</head>
+<body>
+   @*  <div class="header">
+        <button id="loginButton" class="btn btn-primary" data-toggle="popover" title="Profil Einstellungen">Anmelden</button>
+    </div> *@
+    <div class="container">
+
+        <h1 class="text-center">Willkommen bei schlag den Tobi</h1>
+
+        <div class="row justify-content-between align-items-center" style="height: 80vh;">
+            <!-- Linke Spalte (Leer) - Ganz links -->
+            <div class="col text-left">
+                <div class="start-box">
+                <div class="highscore-list">
+                    <h2>Highscores</h2>
+                    <ol>
+                        <li>Kiki - 10000 🥇</li>
+                        <li>Rayan - 9000 🥈</li>
+                        <li>Salva - 8000 🥉</li>
+                        <li>Nuren - 7000</li>
+                        <li>Shannon - 6000</li>
+                        <li>Rhia - 5000</li>
+                        <!-- Weitere Highscores hier einfügen -->
+                    </ol>
+                </div>
+                </div>
+            </div>
+
+            <!-- Mittlere Spalte: Start-Button zentriert -->
+            <div class="col-4 text-center">
+                <div class="start-box">
+                    <p>Bist du bereit Tobi zu vermöbeln</p>
+                    <button class="btn btn-primary btn-lg" onclick="startGame()">Start</button>
+                </div>
+            </div>
+
+            <!-- Rechte Spalte: Profil-Einstellungen - Ganz rechts -->
+            <div class="col text-right">
+                <div class="col text-right">
+                    <div class="start-box">
+                        <div class="text-center">
+                        <p>Spieleinstellungen</p>
+                        
+                        <div class="form-group">
+                            <label for="difficultySelect">Schwierigkeitsgrad:</label>
+                            <select class="form-control" id="difficultySelect">
+                                <option value="leicht">Leicht</option>
+                                <option value="mittel">Mittel</option>
+                                <option value="schwer">Schwer</option>
+                            </select>
+                        </div>
+                        </div>
+                        <div class="text-center">
+                            <!-- Zentrieren des Musik-Auswahl-Buttons -->
+                            Musik
+                            <div class="switch d-inline-block">
+                                <!-- Zusätzliche Klasse d-inline-block -->
+                                <input type="checkbox" id="musicToggle">
+                                <label for="musicToggle" class="slider"></label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Credits-Modal -->
+            <div class="cc-container">
+                <button id="ccButton">CC</button>
+                <div class="popover" id="creditsPopover" style="display: none;">
+                    <p>Made by Kiki :) <br />Graphics by Nana <br /> Mukke by Nuren <br />Good Inspiration by Rayan <br /> <br /> Alles gute Tobiii <3 </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var popover = document.getElementById("creditsPopover");
+            var btn = document.getElementById("ccButton");
+
+            btn.onclick = function () {
+                popover.style.display = popover.style.display === "none" ? "block" : "none";
+            }
+
+            // Klicken außerhalb des Popovers schließt es
+            window.onclick = function (event) {
+                if (event.target !== btn && event.target !== popover) {
+                    popover.style.display = "none";
+                }
+            }
+        });
+
+        // document.getElementById('profileForm').addEventListener('submit', function (event) {
+        //     event.preventDefault();
+        //     const playerName = document.getElementById('playerName').value;
+        //     const profilePic = document.getElementById('profilePic').files[0];
+
+        //     // Anzeige des Profilnamens
+        //     const profileNameDiv = document.querySelector('.profile-name');
+        //     profileNameDiv.textContent = playerName;
+
+        //     // Anzeige des Profilbildes, wenn eines ausgewählt wurde
+        //     if (profilePic) {
+        //         const reader = new FileReader();
+        //         reader.onload = function (e) {
+        //             const profilePicDiv = document.querySelector('.profile-pic');
+        //             profilePicDiv.src = e.target.result;
+        //             profilePicDiv.style.display = 'inline'; // Zeige das Bild an
+        //         };
+        //         reader.readAsDataURL(profilePic);
+        //     }
+
+        // });
+
+        function startGame() {
+            window.location.href = 'MoleGame/game';
+        }
+
+
+
+    </script>
+</body>
+</html>
