@@ -28,7 +28,6 @@
                         <li>Nuren - 7000</li>
                         <li>Shannon - 6000</li>
                         <li>Rhia - 5000</li>
-                        <!-- Weitere Highscores hier einfügen -->
                     </ol>
                 </div>
                 </div>
@@ -59,10 +58,8 @@
                         </div>
                         </div>
                         <div class="text-center">
-                            <!-- Zentrieren des Musik-Auswahl-Buttons -->
                             Musik
                             <div class="switch d-inline-block">
-                                <!-- Zusätzliche Klasse d-inline-block -->
                                 <input type="checkbox" id="musicToggle">
                                 <label for="musicToggle" class="slider"></label>
                             </div>
@@ -121,7 +118,8 @@
         // });
 
         function startGame() {
-            window.location.href = 'MoleGame/game';
+            var difficulty = document.getElementById('difficultySelect').value;
+            window.location.href = 'MoleGame/game?difficulty=' + difficulty;
         }
 
 

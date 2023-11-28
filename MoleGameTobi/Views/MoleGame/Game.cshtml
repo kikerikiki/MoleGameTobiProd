@@ -1,4 +1,6 @@
-﻿@model MoleGameTobi.Models.MoleGame
+﻿@{
+    var difficulty = Context.Request.Query["difficulty"];
+}
 
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -143,6 +145,24 @@
         var moleTimer;
         const holes = document.querySelectorAll('.mole-hole');
 
+        var difficulty = '@difficulty';  
+        var moleAppearanceInterval;
+
+        switch (difficulty) {
+            case 'leicht':
+                moleAppearanceInterval = 2000;
+                break;
+            case 'mittel':
+                moleAppearanceInterval = 1500;
+                break;
+            case 'schwer':
+                moleAppearanceInterval = 1000;
+                break;
+            default:
+                moleAppearanceInterval = 2000; // Standardwert für den Fall, dass kein Wert übergeben wird
+        }
+
+        //Existierende Trophies 
         const trophyList = document.getElementById('trophyList');
         const trophies = [
             {
@@ -197,12 +217,13 @@
         ];
 
        
-
+        //Zufälliges Loch wird gesucht, welches noch nicht benutzt wird gerade 
         function getRandomHole(holes) {
             const idx = Math.floor(Math.random() * holes.length);
             return holes[idx];
         }
 
+        //Trophy animation zur Liste 
         function addTrophyToCenterOfScreen(trophy) {
             const trophyImage = document.createElement('img');
             trophyImage.src = trophy.image;
@@ -236,6 +257,7 @@
             }, 100);
         }
 
+        // schauen ob man die verdiente schon hat, wenn nicht adde zur liste 
         function checkAndDisplayTrophies() {
             for (const trophy of trophies) {
                 if (score >= trophy.score && !trophy.earned) {
@@ -258,6 +280,7 @@
             });
         });
 
+        //Am ende werden alle gesammelten Trophies gezeigt
         function showCollectedTrophies() {
             const collectedTrophiesList = document.getElementById('collectedTrophiesList');
             collectedTrophiesList.innerHTML = ''; // Liste leeren
@@ -276,6 +299,7 @@
             });
         }
 
+        //Trophies
         function showTrophyDescriptionPopup(name, description) {
             const popup = document.getElementById('trophyDescriptionPopup');
             document.getElementById('trophyName').textContent = name;
@@ -287,7 +311,7 @@
             document.getElementById('trophyDescriptionPopup').style.display = 'none';
         }
 
-
+        //Mole getroffen /Hammer animation /TrophyCheck /SlideDown animation
         function hitMole(moleImageDiv) {
             if (!moleImageDiv.classList.contains('hit')) {
                 moleImageDiv.classList.add('hit');
@@ -319,8 +343,8 @@
         }
 
         let lives = 3; 
-        let moleAppearanceInterval = 2000;
 
+        //Leben verlieren 
         function loseLife() {
             if (lives > 0) {
                 const heartElement = document.getElementById(`heart${lives}`);
@@ -335,6 +359,7 @@
             }
         }
 
+        //Animationsstart / ende
         function resetAndStartAnimation(moleImageDiv, animationName, duration) {
             moleImageDiv.style.animation = 'none';
             moleImageDiv.offsetHeight; 
@@ -342,7 +367,7 @@
             moleImageDiv.style.animation = `${animationName} ${duration} forwards`;
         }
 
-
+        //Random Mole Appearing
         function appearRandomMole() {
             const hole = getRandomHole(holes);
             if (!hole.classList.contains('active') && document.getElementById('gameOver').style.display !== 'block') {
@@ -376,9 +401,10 @@
                     }
                 }, time);
 
-                if (score >= 250) {
+                //ab einem bestimmten Score wird intervall erhöht 
+                if (score >= 250) { 
  
-                    moleAppearanceInterval = 1500; 
+                    moleAppearanceInterval += 1500;    
                 }
 
                 setTimeout(appearRandomMole, moleAppearanceInterval);
@@ -438,6 +464,7 @@
             timerElement.textContent = formatTime(elapsedTimeInSeconds);
         }
 
+        //GameOver Funktion 
         function gameOver() {
             const gameOverBox = document.getElementById('gameOver');
             const finalScore = document.getElementById('finalScore');
@@ -457,6 +484,7 @@
             
         }
 
+        //Trophy Pop-up 
         document.getElementById('closePopup').addEventListener('click', function () {
             document.getElementById('trophyDescriptionPopup').style.display = 'none';
         });

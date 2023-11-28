@@ -8,38 +8,29 @@
     background-attachment: fixed;
 }
 
-/*.header {
-    width: 100%;
-    height: 75px;
-    background-color: #808080;*/ /* Rauchgrau */
-    /*display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-}*/
 .start-box {
-    background-color: #f8f9fa; /* Hintergrundfarbe der Box */
-    border: 2px solid #007bff; /* Randstil und -farbe der Box */
-    padding: 20px; /* Innenabstand der Box */
-    border-radius: 10px; /* Abgerundete Ecken */
+    background-color: #f8f9fa; 
+    border: 2px solid #007bff; 
+    padding: 20px; 
+    border-radius: 10px; 
 }
 
     .start-box p {
-        font-size: 20px; /* Textgröße des zusätzlichen Textes */
+        font-size: 20px; 
     }
 
 
 h1 {
-    font-size: 48px; /* Größe anpassen */
-    color: #FFFFFF; /* Weiße Schrift */
-    text-shadow: 2px 2px 10px #000000; /* Dunkler Schatten für bessere Lesbarkeit */
-    font-family: 'Comic Sans MS', cursive; /* Beispiel für eine Comic-Schriftart */
+    font-size: 48px; 
+    color: #FFFFFF; 
+    text-shadow: 2px 2px 10px #000000; 
+    font-family: 'Comic Sans MS', cursive; 
     position: absolute;
-    top: 10vh; /* Position anpassen */
+    top: 10vh; 
     left: 50%;
     transform: translateX(-50%);
     text-align: center;
-    width: 100%; /* Stellt sicher, dass der Text zentriert ist */
+    width: 100%; 
     animation: pulse 2s infinite alternate;
 }
 
@@ -60,17 +51,16 @@ h1 {
     z-index: 1002;
 }
 
-/* Popover-Stil */
 .popover {
     background-color: white;
     padding: 10px;
     border: 1px solid #888;
     position: relative;
-    bottom: 120%; /* Setzt das Popover über den Button */
+    bottom: 120%; 
     right: 0;
     box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-    height: 200px; /* Feste Höhe des Popovers */
-    overflow-y: auto; /* Erlaubt das Scrollen, falls der Inhalt die Höhe überschreitet */
+    height: 150px;
+    overflow-y: auto; 
 }
 .switch {
     position: relative;
@@ -78,15 +68,13 @@ h1 {
     width: 60px;
     height: 34px;
 }
-
-    /* Versteckt die Checkbox */
     .switch input {
         opacity: 0;
         width: 0;
         height: 0;
     }
 
-/* Stil für den Schieberegler */
+
 .slider {
     position: absolute;
     cursor: pointer;
@@ -119,7 +107,6 @@ input:checked + .slider {
         transform: translateX(26px);
     }
 
-/* Stil für den Text */
 #musicStatus {
     margin-left: 10px;
     vertical-align: middle;
