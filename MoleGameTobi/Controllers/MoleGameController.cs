@@ -23,7 +23,7 @@ namespace MoleGameTobi.Controllers
         {
             game.Score = 0;
             game.StartTime = DateTime.Now;
-            game.EndTime = game.StartTime.AddMinutes(1); // Adjust the game duration as needed
+            game.EndTime = game.StartTime.AddMinutes(1); 
             game.IsGameOver = false;
 
             return RedirectToAction("Index");
