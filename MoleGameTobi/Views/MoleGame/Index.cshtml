@@ -28,13 +28,11 @@
                         <li>Nuren - 7000</li>
                         <li>Shannon - 6000</li>
                         <li>Rhia - 5000</li>
-                        <!-- Weitere Highscores hier einfügen -->
                     </ol>
                 </div>
                 </div>
             </div>
 
-            <!-- Mittlere Spalte: Start-Button zentriert -->
             <div class="col-4 text-center">
                 <div class="start-box">
                     <p>Bist du bereit Tobi zu vermöbeln</p>
@@ -42,7 +40,6 @@
                 </div>
             </div>
 
-            <!-- Rechte Spalte: Profil-Einstellungen - Ganz rechts -->
             <div class="col text-right">
                 <div class="col text-right">
                     <div class="start-box">
@@ -59,10 +56,8 @@
                         </div>
                         </div>
                         <div class="text-center">
-                            <!-- Zentrieren des Musik-Auswahl-Buttons -->
                             Musik
                             <div class="switch d-inline-block">
-                                <!-- Zusätzliche Klasse d-inline-block -->
                                 <input type="checkbox" id="musicToggle">
                                 <label for="musicToggle" class="slider"></label>
                             </div>
@@ -71,7 +66,6 @@
                 </div>
             </div>
 
-            <!-- Credits-Modal -->
             <div class="cc-container">
                 <button id="ccButton">CC</button>
                 <div class="popover" id="creditsPopover" style="display: none;">
@@ -90,7 +84,6 @@
                 popover.style.display = popover.style.display === "none" ? "block" : "none";
             }
 
-            // Klicken außerhalb des Popovers schließt es
             window.onclick = function (event) {
                 if (event.target !== btn && event.target !== popover) {
                     popover.style.display = "none";
@@ -103,17 +96,17 @@
         //     const playerName = document.getElementById('playerName').value;
         //     const profilePic = document.getElementById('profilePic').files[0];
 
-        //     // Anzeige des Profilnamens
+        //     
         //     const profileNameDiv = document.querySelector('.profile-name');
         //     profileNameDiv.textContent = playerName;
 
-        //     // Anzeige des Profilbildes, wenn eines ausgewählt wurde
+        //    
         //     if (profilePic) {
         //         const reader = new FileReader();
         //         reader.onload = function (e) {
         //             const profilePicDiv = document.querySelector('.profile-pic');
         //             profilePicDiv.src = e.target.result;
-        //             profilePicDiv.style.display = 'inline'; // Zeige das Bild an
+        //             profilePicDiv.style.display = 'inline'; 
         //         };
         //         reader.readAsDataURL(profilePic);
         //     }
